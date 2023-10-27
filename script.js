@@ -4,7 +4,7 @@ function changeImage(offset) {
     currentImageIndex += offset;
     
     // Define your image paths here, e.g., image1.jpg, image2.jpg, etc.
-    const imagePaths = ["frontend/Assets/Vault2.png", "frontend/Assets/Vault3.png", "frontend/Assets/Vault.png"];
+    const imagePaths = ["Frontend/Assets/vault2.png", "Frontend/Assets/vault3.png", "Frontend/Assets/vault.png"];
 
     if (currentImageIndex < 0) {
         currentImageIndex = imagePaths.length - 1;
