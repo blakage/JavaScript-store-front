@@ -12,11 +12,12 @@ app.get("/", (req, res) => {
 })
 
 // MySQL Connection
+require("dotenv").config();
 const connection = mysql.createConnection({
     host: "localhost",
     database: "store",
-    user: "root",
-    password: 'dev1',
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
 })
 connection.connect((error) => {
     if (error) {
