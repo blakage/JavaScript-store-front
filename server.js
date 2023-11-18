@@ -1,6 +1,5 @@
 const body_parser = require('body-parser'); 
 const express = require('express');
-const mysql = require('mysql2');
 const path = require('path');
 const fs = require("fs");
 
@@ -12,20 +11,7 @@ app.get("/", (req, res) => {
 })
 
 // MySQL Connection
-require("dotenv").config();
-const connection = mysql.createConnection({
-    host: "localhost",
-    database: "store",
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS,
-})
-connection.connect((error) => {
-    if (error) {
-        console.log(error);
-        return;
-    }
-    console.log("Connected Successfully to MySQL server on port 3306.")
-})
+require("./connection.js");
 
 
 // Serve static files:
