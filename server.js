@@ -13,7 +13,6 @@ app.get("/", (req, res) => {
 // MySQL Connection
 require("./connection.js");
 
-
 // Serve static files:
 app.use(express.static('.'));
 
@@ -25,8 +24,13 @@ app.use(body_parser.json());
 app.set('view engine', 'ejs');
 
 // Routes
-var routes = require('./routes/register');
-routes(app);
+var rPath = "./routes/"
+fs.readdirSync(rPath).forEach(function(file) {
+    var route = rPath+file;
+    require(route)(app);
+})
 
 // Listen on Port 8080.
-app.listen(8080, () => {})
+app.listen(8080, () => {
+    console.log("Available at http://localhost:8080")
+})
