@@ -5,10 +5,6 @@ const fs = require("fs");
 
 // Express Setup:
 const app = express();
-app.get("/", (req, res) => { 
-    const filePath = path.resolve('', "index.html");
-    res.sendFile(filePath);
-})
 
 // MySQL Connection
 require("./connection.js");
