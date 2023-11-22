@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const fs = require("fs");
 const cookieParser = require('cookie-parser');
+const sessions = require("express-session");
 
 // Express Setup:
 const app = express();
@@ -10,9 +11,13 @@ const app = express();
 // Cookie Parser setup:
 app.use(cookieParser(process.env.COOKIE_PARSER_SECRET));
 
-// User Management:
-SESSION_MAP = {}
-app.set("sessionMap", SESSION_MAP);
+// Session setup:
+app.use(sessions({
+    secret: process.env.SESSION_SECRET,
+    saveUninitialized: true,
+    cookie: { maxAge: 86400000 },
+    resave: false
+}));
 
 
 // MySQL Connection
@@ -29,11 +34,12 @@ app.use(body_parser.json());
 app.set('view engine', 'ejs');
 
 // EJS Template "Globals":
-userManager = require("./userManager.js");
 app.use(function (req, res, next) {
-    res.locals.isAuthenticated = userManager.getUsernameFromSessionID(req.cookies.sessionId);
+    console.log(req.session.user);
+    res.locals.user = req.session.user;
     next();
 });
+
 // Routes
 var rPath = "./routes/"
 fs.readdirSync(rPath).forEach(function(file) {

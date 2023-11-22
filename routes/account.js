@@ -3,7 +3,7 @@ const connection = require('../connection');
 module.exports = function (app) {
     app.get('/account', function (request, response) {
         // Only allow access if authenticated:
-        const username = userManager.getUsernameFromSessionID(request.cookies.sessionId);
+        const username = request.session.username;
         if (username == null) {
             // Not logged in.
             return response.render("login", {

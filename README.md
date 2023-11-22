@@ -11,8 +11,9 @@ web app for group 19
 
 ### Set Environment Variables
 `SET DB_USER=root`
-
 `SET DB_PASS=...`
+`set COOKIE_PARSER_SECRET=...`
+`SET SESSION_SECRET=...`
 
 ### Run
 `node server.js` -> localhost:8080

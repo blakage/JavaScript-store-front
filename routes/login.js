@@ -16,10 +16,9 @@ module.exports = function (app) {
                 var pass_check = bcrypt.compareSync(password, result[0].password);
                 if (pass_check) {
                      // Correct password! Generate sessionId
-                    const sessionId = randomBytes(16).toString("base64");
-                    response.cookie("sessionId", sessionId);
-                    const sessionMap = app.get("sessionMap")
-                    sessionMap[sessionId] = username;
+                     session = request.session;
+                     session.username = username;
+                     session.user = [username, result[0].isAdmin];
                     return response.redirect("account")
                 } else {
                     return response.render("login", {
@@ -40,7 +39,8 @@ module.exports = function (app) {
 
     app.get('/login', function (request, response) {
         // Shoot towards account page if already logged in:
-        const username = userManager.getUsernameFromSessionID(request.cookies.sessionId);
+        const username = request.session.username;
+        console.log(username);
         if (username != null) {
             return response.render("account", {});
         }
@@ -49,10 +49,7 @@ module.exports = function (app) {
 
     // Logout:
     app.get("/logout", (request, response) => {
-        const sessionId = request.cookies.sessionId;
-        const sessionMap = app.get("sessionMap");
-        delete sessionMap[sessionId];
-        response.clearCookie('sessionId');
+        request.session.destroy();
         response.redirect('/');
     })
 }
