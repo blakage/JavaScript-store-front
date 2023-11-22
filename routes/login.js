@@ -20,9 +20,7 @@ module.exports = function (app) {
                     response.cookie("sessionId", sessionId);
                     const sessionMap = app.get("sessionMap")
                     sessionMap[sessionId] = username;
-                    return response.render("account", {
-                        message: "You\'re successfully logged in!"
-                    })
+                    return response.redirect("account")
                 } else {
                     return response.render("login", {
                         message: "The username or password you provided is incorrect.",
@@ -41,6 +39,11 @@ module.exports = function (app) {
     });
 
     app.get('/login', function (request, response) {
+        // Shoot towards account page if already logged in:
+        const username = userManager.getUsernameFromSessionID(request.cookies.sessionId);
+        if (username != null) {
+            return response.render("account", {});
+        }
         return response.render("login", { message : null });
     });
 

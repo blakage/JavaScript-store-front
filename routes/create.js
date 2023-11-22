@@ -40,6 +40,11 @@ module.exports = function (app) {
         })
     });
     app.get('/create', function (request, response) {
+        // Shoot towards account page if already logged in:
+        const username = userManager.getUsernameFromSessionID(request.cookies.sessionId);
+        if (username != null) {
+            return response.render("account", {});
+        }
         response.render("create", { message: null });
     });
 }

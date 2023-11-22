@@ -68,8 +68,10 @@
             <li class="dropdown">
                 <a href="account">My Account</a>
                 <ul class="dropdown-content">
-                    <li><a href="login">Login</a></li>
-                    <li><a href="create">Create Account</a></li>
+                    <% if (!isAuthenticated) { %>
+                        <li><a href="login">Login</a></li>
+                        <li><a href="create">Create Account</a></li>
+                    <% } %>
                     <li><a href="account">My Account</a></li>
                 </ul>
             </li>
