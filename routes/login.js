@@ -1,7 +1,6 @@
 const bcrypt = require("bcrypt");
 const connection = require('../connection');
 const sanitizer = require("sanitize")();
-const { randomBytes } = require('crypto');
 
 module.exports = function (app) {
     app.post('/login', function (request, response) {
