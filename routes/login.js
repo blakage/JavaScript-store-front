@@ -14,10 +14,11 @@ module.exports = function (app) {
                 // Caught onto user, check password:
                 var pass_check = bcrypt.compareSync(password, result[0].password);
                 if (pass_check) {
-                     // Correct password! Generate sessionId
-                     session = request.session;
-                     session.username = username;
-                     session.user = [username, result[0].isAdmin];
+                    // Correct password! Generate sessionId
+                    session = request.session;
+                    session.username = username;
+                    session.isAdmin = result[0].isAdmin;
+                    session.user = [username, result[0].isAdmin];
                     return response.redirect("account")
                 } else {
                     return response.render("login", {
