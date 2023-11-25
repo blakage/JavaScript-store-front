@@ -1,4 +1,31 @@
 <%- include('../partials/headerNavHero.ejs') %>
+    <script>
+        function validateUsername(field) {
+            // Don't do anything if we're trying to query our same username.
+            if (field.value.toLowerCase() === "<%= user.username %>") {
+                document.getElementById("userValidation").classList.remove("is-invalid");
+                document.getElementById("userValidation").classList.remove("is-valid");
+                return;
+            }
+
+            // fetch status of username using user/validate:
+            fetch("/user/validate?username=" + field.value).then(response => 
+                response.json().then(data => ({
+                    data: data,
+                    status: response.status
+                })
+            ).then(res => {
+                if (res.data.success == true) {
+                    // Username is unavailable.
+                    document.getElementById("userValidation").classList.add("is-invalid");
+                    document.getElementById("userValidation").classList.remove("is-valid");
+                } else {
+                    document.getElementById("userValidation").classList.add("is-valid");
+                    document.getElementById("userValidation").classList.remove("is-invalid");
+                }
+            }));
+        }
+    </script>
 
     <!-- Main Content Section -->
     <div class="text-container">
@@ -10,6 +37,65 @@
             laborum.
             <hr>
         </p>
+    </div>
+
+    <!-- Message -->
+    <center>
+        <% if (message) { %>
+        <div class="col-md-8 alert alert-<%= message_style %> alert-dismissible fade show" role="alert">
+            <%= message %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <% } %>
+    </center>
+
+    <div class="row">
+        <!-- Update Account Information-->
+        <div class="col-md-6 main-content">
+            <h2>Update Account Information</h2>
+            <form method="POST" action="/account">
+                <!-- Username -->
+                <div class="col-md-12">
+                    <label for="userValidation">Username</label>
+                    <input type="text" name="username" class="form-control" id="userValidation" onkeyup="validateUsername(this)"
+                        placeholder="Username..." value="<%= user.username %>" required>
+                    <div class="invalid-feedback">
+                        Sorry. That username is taken.
+                    </div>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+                <!-- Image todo -->
+                <label>Profile Image</label>
+                <input type="file" name="image" class="form-control">
+
+                <!-- Address todo -->
+
+                <!-- Submit Button -->
+                <div class="d-grid gap-2">
+                    <br>
+                    <button type="submit" class="btn btn-dark" name="action_type" value="update_account">Update Account</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Update Password-->
+        <div class="col-md-6 main-content">
+            <h2>Update Password</h2>
+            <form method="POST" action="/account">
+                <label>Current Password</label>
+                <input type="text" name="curr_password" class="form-control" placeholder="Current Password..." required>
+                <label>New Password</label>
+                <input type="password" name="new_password" class="form-control" placeholder="Password..." required>
+                <label>Confirm New Password</label>
+                <input type="password" name="conf_new_password" class="form-control" placeholder="Confirm New Password..." required>
+                <div class="d-grid gap-2">
+                    <br>
+                    <button type="submit" class="btn btn-dark">Update Password</button>
+                </div>
+            </form>
+        </div>
     </div>
 
 <%- include('../partials/footer.ejs') %>
