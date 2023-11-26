@@ -2,6 +2,10 @@
 body, h1, h2, p, ul, li {
     margin: 0;
     padding: 0;
+    /* Bootstrap override to match original style. Revert if necessary. */
+    font-size: revert;
+    line-height: revert;
+    font-weight: revert;
 }
 
 body {
@@ -22,7 +26,7 @@ header {
     color: #fff;
     padding: 10px 0;
     text-align: center;
-    height: 35px;
+    height: fit-content;
 }
 
 header ul {
@@ -43,7 +47,7 @@ header ul li a {
 
 /* Adjust positioning and spacing as needed */
 .search-bar {
-    margin: 10px 20px 0; /* Adjust the top margin for positioning */
+    margin: -5px 20px; /* Adjust the top margin for positioning */
     top: 0;
     position: sticky;
     display: flex;
@@ -57,6 +61,7 @@ header ul li a {
     border-radius: 5px;
     width: 150px; /* Adjust the width as needed */
     font-family: 'Courier New', Courier, monospace;
+    line-height: initial;
 }
 
 .search-bar button {
@@ -136,7 +141,6 @@ nav ul li:hover ul {
 }
 
 .image-container {
-    position: absolute;
     top: 114px;
     left: 0;
     width: 100%;
@@ -156,35 +160,59 @@ nav ul li:hover ul {
     text-align: center;
     flex: 1;
     min-height: 100vh;
+    position: relative;
+}
+
+.text-container {
+    width: 75%;
+    margin: 0 auto;
+    text-align: center;
+    padding: 20px;
+    top: 0; /* Adjust the top value as needed to move the text up or down */
+    height:fit-content;
+}
+
+/* Ensure the text is responsive and scales with different screen sizes */
+@media screen and (max-width: 768px) {
+    .text-container {
+        width: 100%;
+    }
 }
 
 hr {
-    border-top: 5px dotted #4a3640;
-    width: 40%;
+    /* Bootstrap override to match original design. Revert if necessary */
+    margin: revert;
+    opacity: revert;
+    border: revert;
 
+    /* Maintained from original design */
+    width: 40%;
+    border-top: 5px dotted #4a3640;
 }
 
+.image-and-buttons {
+    position: relative;
+}
 .prev-button, .next-button {
-    background-color: white;
-    font-size: 24px;
-    color: black;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
+    background: black;
     border-radius: 50%;
+    border-color: white;
+    border: none;
+    font-size: 24px;
+    color: white; /* Change the color to match your design */
+    cursor: pointer;
+    z-index: 1;
 }
 
 .prev-button {
-    top: 575px;
-    left: 875px; /* Adjust the position as needed */
+    left: 10px;
 }
 
 .next-button {
-    top: 575px;
-    right: 875px; /* Adjust the position as needed */
+    right: 10px;
 }
 
 
@@ -207,6 +235,10 @@ hr {
     padding: 20px;
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 75%;
+    margin: 0 auto;
+    margin-bottom: 25px;
 }
 
 footer {
@@ -215,4 +247,10 @@ footer {
     text-align: center;
     padding: 10px 0;
     font-size: 14px;
+}
+
+label {
+    font-weight: bold;
+    margin-top: 15px;
+    margin-bottom: -15px;
 }
