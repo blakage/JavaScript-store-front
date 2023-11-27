@@ -4,6 +4,7 @@ const path = require('path');
 const fs = require("fs");
 const cookieParser = require('cookie-parser');
 const sessions = require("express-session");
+const { Sequelize } = require('sequelize');
 
 // Express Setup:
 const app = express();
