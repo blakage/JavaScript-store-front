@@ -53,7 +53,7 @@
         <!-- Update Account Information-->
         <div class="col-md-6 main-content">
             <h2>Update Account Information</h2>
-            <form method="POST" action="/account">
+            <form method="POST" action="/account" enctype="multipart/form-data">
                 <!-- Username -->
                 <div class="col-md-12">
                     <label for="userValidation">Username</label>
@@ -66,8 +66,14 @@
                         Looks good!
                     </div>
                 </div>
-                <!-- Image todo -->
                 <label>Profile Image</label>
+                <br>
+                <!-- Construct image from the stored blob -->
+                <% if (user.image) { %>
+                <br>
+                    <img src="data:image/png;base64,<%= user.image %>" class="rounded-circle" width="300", height="300">
+                    <br><br>
+                <% } %>
                 <input type="file" name="image" class="form-control">
 
                 <!-- Address todo -->
@@ -85,7 +91,7 @@
             <h2>Update Password</h2>
             <form method="POST" action="/account">
                 <label>Current Password</label>
-                <input type="text" name="curr_password" class="form-control" placeholder="Current Password..." required>
+                <input type="password" name="curr_password" class="form-control" placeholder="Current Password..." required>
                 <label>New Password</label>
                 <input type="password" name="new_password" class="form-control" placeholder="Password..." required>
                 <label>Confirm New Password</label>

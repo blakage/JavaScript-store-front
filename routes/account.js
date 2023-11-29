@@ -1,5 +1,8 @@
+const { where } = require('sequelize');
 const connection = require('../connection');
 const sanitizer = require("sanitize")();
+const multer = require('multer');
+const upload = multer({storage: multer.memoryStorage()})
 
 function getAccountInfo(username, callback) {
     var query = connection.query("SELECT * FROM Accounts WHERE username=" + connection.escape(username), 
@@ -47,13 +50,20 @@ module.exports = function (app) {
     })
 
     // Update Account Inforamtion
-    app.post("/account", function(request, response) {
+    app.post("/account", upload.single("image"), function(request, response) {
         var {username, action_type} = request.body;
         action_type = sanitizer.value(action_type, 'str');
 
         // Update Account:
         if (action_type === "update_account") {
             username = sanitizer.value(username, 'str');
+            
+            // Check for a profile image:
+            var encoded_image = null;
+            if (request.file) {
+                console.log(request.file.buffer);
+                encoded_image = request.file.buffer.toString("base64");
+            }
 
             // Ensure that the username is available (similar functionality to user/validate,
             // but on the server as well BEFORE making an update sql operation):
@@ -67,15 +77,27 @@ module.exports = function (app) {
                             "Username is already taken.",
                             "danger");
                     } else {
-                        // Update:
-                        var query = connection.query("UPDATE Accounts SET username=" +
-                            connection.escape(username) + "WHERE username=" + connection.escape(request.session.username),
+                        // Where:
+                        const where_query = " WHERE username=" + connection.escape(request.session.username);
+    
+                        // Update (different queries depending on if encoded_image is supplied):
+                        var queryString = "UPDATE Accounts SET username=" + connection.escape(username)
+                        var responseMessage = "Successfully updated username to: " + username;
+                        if (encoded_image) {
+                            queryString += ",image=" + connection.escape(encoded_image)
+                            responseMessage += " and set a profile image.";
+                        }
+                        queryString += where_query;
+
+                        var query = connection.query(queryString,
                             function (error, result) {
                                 if (!error) {
                                     return sendResponse(response,
                                         username,
-                                        "Successfully updated username to: " + username,
+                                        responseMessage,
                                         "success");
+                                } else {
+                                    console.log(error);
                                 }
                             }
                         );

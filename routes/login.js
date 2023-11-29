@@ -18,7 +18,7 @@ module.exports = function (app) {
                     session = request.session;
                     session.username = username;
                     session.isAdmin = result[0].isAdmin;
-                    session.user = [username, result[0].isAdmin];
+                    session.user = [username, result[0].isAdmin, result[0].image];
                     return response.redirect("account")
                 } else {
                     return response.render("login", {
