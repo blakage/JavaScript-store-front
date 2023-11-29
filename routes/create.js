@@ -1,9 +1,10 @@
 const bcrypt = require("bcrypt");
-const connection = require('../connection');
 const sanitizer = require("sanitize")();
+const sequelize = require('../sequelize_conn');
+const User = require("../models/User.model");
 
 module.exports = function (app) {
-    app.post('/create', (request, response) => {
+    app.post('/create', async (request, response) => {
         var { username, password, confirm_password } = request.body;
         username = sanitizer.value(username, 'str');
         password = sanitizer.value(password, 'str');
@@ -17,21 +18,23 @@ module.exports = function (app) {
         }
 
         // Check if username is already registered:
-        var retval = connection.query("SELECT * FROM Accounts WHERE username = " + connection.escape(username));
-        if (retval[0] != null) {
+        const result = await User.findOne({where: {username: username}})
+
+        // Username already exists:
+        if (result != null) {
             return response.render("create", {
                 message: "Username '" + username + "' is already registered."
             });
         }
 
+        // Hash password:
         const hashed_password = bcrypt.hashSync(password, 13);
 
-        // Insert into DB:
-        connection.query("INSERT INTO Accounts SET?", {
-            username: username,
-            password: hashed_password
-        }, (error, response) => {
-            console.log(error);
+        // Insert:
+        console.log(hashed_password);
+        await User.create({
+            username : username,
+            password: hashed_password,
         })
 
         return response.render("login", { 
@@ -39,6 +42,7 @@ module.exports = function (app) {
             message_style: "success",
         })
     });
+
     app.get('/create', function (request, response) {
         // Shoot towards account page if already logged in:
         const username = request.session.username;

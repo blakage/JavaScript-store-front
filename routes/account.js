@@ -1,22 +1,44 @@
-const { where } = require('sequelize');
-const connection = require('../connection');
 const sanitizer = require("sanitize")();
-const multer = require('multer');
-const upload = multer({storage: multer.memoryStorage()})
+const fs = require('fs');
+const path = require('path')
 
-function getAccountInfo(username, callback) {
-    var query = connection.query("SELECT * FROM Accounts WHERE username=" + connection.escape(username), 
-    function (error, result) {
-        if (error) {
-            callback(error, []);
-        } else {
-            callback(null, result[0])
-        }
-    });
+const sequelize = require('../sequelize_conn');
+const User = require("../models/User.model");
+
+// Files:
+const multer = require('multer');
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './media')
+    },
+    filename: function (req, file, cb) {
+        cb(null, Buffer.from(file.originalname + Date.now()).toString("base64") + path.extname(file.originalname));
+    }
+})
+const upload = multer({
+    storage: storage,
+    fileFilter: function(_req, file, cb) {
+        validateFileType(file, cb);
+    },
+})
+
+// Excludes checking mime-time from buffer because extension (file-types) requires ESM.
+function validateFileType(file, cb) {
+    // Validate filetype 
+    const filetypes = /jpeg|jpg|png/;
+
+    // Check mime
+    const mimetype = filetypes.test(file.mimetype);
+    return cb(null, mimetype);
 }
 
-function sendResponse(response, username, message, message_style) {
-    getAccountInfo(username, function (error, result) {
+async function getAccountInfo(username, callback) {
+    const result = await User.findOne({"where": {username: username}});
+    callback(result);
+}
+
+async function sendResponse(response, username, message, message_style) {
+    await getAccountInfo(username, function (result) {
         response.render("account", {
             "message": message,
             "message_style": message_style,
@@ -26,7 +48,7 @@ function sendResponse(response, username, message, message_style) {
 }
 
 module.exports = function (app) {
-    app.get('/account', function (request, response) {
+    app.get('/account', async function (request, response) {
         // Only allow access if authenticated:
         const username = request.session.username;
         if (username == null) {
@@ -38,73 +60,66 @@ module.exports = function (app) {
         }
 
         // Wrap in getAccountInfo:
-        sendResponse(response, username, null, null);
+        await sendResponse(response, username, null, null);
     });
 
-    app.get("/user/validate", function(request, response) {
+    app.get("/user/validate", async function(request, response) {
         const username = request.query.username;
-        var query = connection.query("SELECT * FROM Accounts WHERE username=" + connection.escape(username),
-            function (error, result) {
-                return response.json({ "success": result.length > 0 });
-            });
+        const result = await User.findOne({"where": {username: username}});
+        return response.json({"success": result != null});
     })
 
     // Update Account Inforamtion
-    app.post("/account", upload.single("image"), function(request, response) {
+    app.post("/account", upload.single("image"), async function(request, response) {
         var {username, action_type} = request.body;
         action_type = sanitizer.value(action_type, 'str');
 
         // Update Account:
         if (action_type === "update_account") {
             username = sanitizer.value(username, 'str');
-            
-            // Check for a profile image:
-            var encoded_image = null;
-            if (request.file) {
-                console.log(request.file.buffer);
-                encoded_image = request.file.buffer.toString("base64");
-            }
+            var responseMessage = "Successfully updated username to: " + username;
 
             // Ensure that the username is available (similar functionality to user/validate,
             // but on the server as well BEFORE making an update sql operation):
-            var query = connection.query("SELECT * FROM Accounts WHERE username=" + connection.escape(username),
-            function(error, result) {
-                if (!error) {
-                    // Check if this username is taken and that it's not our current one.
-                    if ((result[0] != null) && username !== request.session.username) {
-                        sendResponse(response,
-                            request.session.username,
-                            "Username is already taken.",
-                            "danger");
-                    } else {
-                        // Where:
-                        const where_query = " WHERE username=" + connection.escape(request.session.username);
-    
-                        // Update (different queries depending on if encoded_image is supplied):
-                        var queryString = "UPDATE Accounts SET username=" + connection.escape(username)
-                        var responseMessage = "Successfully updated username to: " + username;
-                        if (encoded_image) {
-                            queryString += ",image=" + connection.escape(encoded_image)
-                            responseMessage += " and set a profile image.";
-                        }
-                        queryString += where_query;
+            const result = await User.findOne({"where": {username: username}});
 
-                        var query = connection.query(queryString,
-                            function (error, result) {
-                                if (!error) {
-                                    return sendResponse(response,
-                                        username,
-                                        responseMessage,
-                                        "success");
-                                } else {
-                                    console.log(error);
-                                }
-                            }
-                        );
-                    }
+            // Check if username is taken and that it's not our current one:
+            if (result != null && username !== request.session.username) {
+                return await sendResponse(response,
+                    request.session.username,
+                    "Username is already taken.",
+                    "danger");
+            }
+
+            const active_user = await User.findOne({"where": {username: request.session.username}});
+ 
+            // Check for a profile image:
+            var encoded_image = active_user.image;
+            if (request.file) {
+                encoded_image = request.file.filename;
+                responseMessage += " and set a profile image.";
+                // If we're linked to a current file, we need to delete it:
+                if (active_user.image) {
+                    // If we're linked to a current file, we need to delete it:
+                    fs.unlink("./media/" + active_user.image, (err => {
+                        console.log(err);
+                    }));
+                }
+            }
+
+            // Update:
+            await User.update({
+                username: username,
+                image: encoded_image,
+            }, {
+                where: {
+                    username: request.session.username,
                 }
             });
+            // Update session:
+            request.session.username = username;
+            request.session.user[0] = username;
+            return await sendResponse(response, username, responseMessage, "success");
         }
-
     })
 }

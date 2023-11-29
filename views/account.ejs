@@ -71,7 +71,7 @@
                 <!-- Construct image from the stored blob -->
                 <% if (user.image) { %>
                 <br>
-                    <img src="data:image/png;base64,<%= user.image %>" class="rounded-circle" width="300", height="300">
+                    <img src="/media/<%= user.image %>" class="rounded-circle" width="280", height="300">
                     <br><br>
                 <% } %>
                 <input type="file" name="image" class="form-control">
