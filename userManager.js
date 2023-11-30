@@ -1,9 +1,8 @@
 module.exports = {
-    getUsernameFromSessionID : function (sessionId) {
-        const sessionMap = app.get("sessionMap");
-        if (sessionId in sessionMap) {
+    getUsernameFromSessionID: function (sessionId, sessionMap) {
+        if (sessionMap && sessionId in sessionMap) {
             return sessionMap[sessionId];
         }
         return null;
     }
-}
+};

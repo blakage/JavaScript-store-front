@@ -2,10 +2,13 @@
 body, h1, h2, p, ul, li {
     margin: 0;
     padding: 0;
-    /* Bootstrap override to match original style. Revert if necessary. */
-    font-size: revert;
-    line-height: revert;
-    font-weight: revert;
+}
+
+h2 {
+    font-size: 20px;
+    font-family: 'Courier New', Courier, monospace;
+    color: #00181f;
+    font-weight: bold;
 }
 
 body {
@@ -26,7 +29,7 @@ header {
     color: #fff;
     padding: 10px 0;
     text-align: center;
-    height: fit-content;
+    /* height: 35px; */ /* Consider removing fixed height */
 }
 
 header ul {
@@ -47,7 +50,7 @@ header ul li a {
 
 /* Adjust positioning and spacing as needed */
 .search-bar {
-    margin: -5px 20px; /* Adjust the top margin for positioning */
+    margin: 10px 20px 0; /* Adjust the top margin for positioning */
     top: 0;
     position: sticky;
     display: flex;
@@ -61,7 +64,6 @@ header ul li a {
     border-radius: 5px;
     width: 150px; /* Adjust the width as needed */
     font-family: 'Courier New', Courier, monospace;
-    line-height: initial;
 }
 
 .search-bar button {
@@ -79,7 +81,7 @@ body{ margin:0; font-family:'georgia'}
 
 nav {
   margin:0 auto;
-  width:100%;
+  /* width:100%; */ /* Consider removing this line */
   height:auto;
   display:inline-block;
   background:white;
@@ -96,7 +98,7 @@ nav ul {
 nav ul li {
   position:relative;
   margin:0 20px 0 0;
-  float:center;
+  float:center; /* This should be float: left; */
   display:inline-block;
 }
 
@@ -141,7 +143,7 @@ nav ul li:hover ul {
 }
 
 .image-container {
-    top: 114px;
+    /* top: 114px; */ /* Adjust or remove this line */
     left: 0;
     width: 100%;
     background-color: #ffff; 
@@ -169,7 +171,7 @@ nav ul li:hover ul {
     text-align: center;
     padding: 20px;
     top: 0; /* Adjust the top value as needed to move the text up or down */
-    height:fit-content;
+    height: 500px;
 }
 
 /* Ensure the text is responsive and scales with different screen sizes */
@@ -180,14 +182,8 @@ nav ul li:hover ul {
 }
 
 hr {
-    /* Bootstrap override to match original design. Revert if necessary */
-    margin: revert;
-    opacity: revert;
-    border: revert;
-
-    /* Maintained from original design */
-    width: 40%;
     border-top: 5px dotted #4a3640;
+    width: 40%;
 }
 
 .image-and-buttons {
@@ -215,7 +211,6 @@ hr {
     right: 10px;
 }
 
-
 .cta-button {
     display: inline-block;
     padding: 10px 20px;
@@ -235,10 +230,6 @@ hr {
     padding: 20px;
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    width: 75%;
-    margin: 0 auto;
-    margin-bottom: 25px;
 }
 
 footer {
@@ -247,10 +238,45 @@ footer {
     text-align: center;
     padding: 10px 0;
     font-size: 14px;
+    /* bottom: 0; */ /* Consider removing this line */
+    /* left: 0; */ /* Consider removing this line */
+    /* width: 100%; */ /* Consider removing this line */
+    /* position: fixed; */ /* Consider removing this line or adjust as needed */
 }
 
 label {
     font-weight: bold;
     margin-top: 15px;
-    margin-bottom: -15px;
+    /* margin-bottom: -15px; */ /* Consider removing or adjusting this line */
+}
+
+.product{
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#product-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 50px;
+}
+
+/* Style the button */
+button {
+    background-color: #00181f;
+    color: white; /* White text color */
+    padding: 10px 15px; /* Adjust padding as needed */
+    font-size: 16px; /* Adjust font size as needed */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Add border radius for rounded corners */
+    cursor: pointer;
+}
+
+/* Hover effect for the button */
+button:hover {
+    background-color: white;
+    color: black;
+    border-color: #51236d;
+    border: 1px solid;
 }
