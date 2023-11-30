@@ -34,11 +34,6 @@ app.use(bodyParser.json());
 // Utilize a template engine:
 app.set('view engine', 'ejs');
 
-const cartRoutes = require('./routes/cart.js');
-
-// Use the cartRoutes for the /cart route
-cartRoutes(app);
-
 
 // EJS Template "Globals":
 app.use(function (req, res, next) {
@@ -52,6 +47,11 @@ const diceRouter = require('./routes/dice.js');
 
 // Use the diceRouter for the /dice route
 app.use('/dice', diceRouter);
+
+const cartRoutes = require('./routes/cart.js');
+
+// Use the cartRoutes for the /cart route
+cartRoutes(app);
 
 // Routes
 var rPath = "./routes/";
