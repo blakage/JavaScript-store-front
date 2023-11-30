@@ -48,6 +48,9 @@ const diceRouter = require('./routes/dice.js');
 // Use the diceRouter for the /dice route
 app.use('/dice', diceRouter);
 
+const accessoriesRouter = require('./routes/accessories.js');
+app.use('/accessories', accessoriesRouter);
+
 const cartRoutes = require('./routes/cart.js');
 
 // Use the cartRoutes for the /cart route

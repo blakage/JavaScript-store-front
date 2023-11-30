@@ -10,6 +10,28 @@
         <hr>
     </div>
     
-    
+    <!-- Product List Section -->
+<div id="product-list">
+    <!-- Display your products here -->
+    <% if (products && products.length) { %>
+        <% products.forEach(product => { %>
+            <div class="product" data-id="<%= product.id %>" data-name="<%= product.name %>" data-price="<%= product.price %>">
+                <img src="<%= product.image %>" alt="<%= product.name %>" width="150" height="150" style="border: 1px dotted #676767;">
+                <h2><%= product.name %></h2>
+                <p><%= product.description %></p>
+                <p>$<%= product.price.toFixed(2) %></p><BR>
+                
+                <!-- Add to Cart Form -->
+                <!-- Add to Cart Form -->
+            <form action="/accessories/add-to-cart/<%= product.id %>" method="POST">
+                <button type="submit">Add to Cart</button>
+            </form>
+
+            </div>
+        <% }); %>
+    <% } else { %>
+        <p>No products available.</p>
+    <% } %>
+</div>
 
 <%- include('../partials/footer.ejs') %>
