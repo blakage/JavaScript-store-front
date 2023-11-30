@@ -4,25 +4,42 @@ body, h1, h2, p, ul, li {
     padding: 0;
 }
 
+h2 {
+    font-size: 20px;
+    font-family: 'Courier New', Courier, monospace;
+    color: #00181f;
+    font-weight: bold;
+}
+
 body {
-    font-family: Arial, sans-serif;
+    font-family: Georgia, 'Times New Roman', Times, serif;
     background-color: #f7f7f7;
-    color: green;
+    color: #676767;
+    margin: 0;
+    padding: 0;
+    flex-direction: column;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column; /* Ensure a column layout */
+    min-height: 100vh;
 }
 
 header {
-    background-color: #333;
+    background-color: black;
     color: #fff;
     padding: 10px 0;
     text-align: center;
+    /* height: 35px; */ /* Consider removing fixed height */
 }
 
 header ul {
     list-style: none;
+    display: flex; /* Add this to make the list items flex children */
+    justify-content: flex-end; /* Align the list items to the right */
 }
 
 header ul li {
-    display: inline;
+    display: inline; /* Display list items as inline elements */
     margin: 0 10px;
 }
 
@@ -31,22 +48,167 @@ header ul li a {
     color: #fff;
 }
 
-.hero {
-    background: url('hero-image.jpg') center center;
-    background-size: cover;
+/* Adjust positioning and spacing as needed */
+.search-bar {
+    margin: 10px 20px 0; /* Adjust the top margin for positioning */
+    top: 0;
+    position: sticky;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.search-bar input[type="text"] {
+    padding: 3px;
+    border: 1px solid #302F45;
+    border-radius: 5px;
+    width: 150px; /* Adjust the width as needed */
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.search-bar button {
+    background-color: #302F45;
+    font-family: 'Courier New', Courier, monospace;
+    color: #fff;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+body{ margin:0; font-family:'georgia'}
+
+nav {
+  margin:0 auto;
+  /* width:100%; */ /* Consider removing this line */
+  height:auto;
+  display:inline-block;
+  background:white;
+  z-index: 1;
+}
+
+nav ul {
+  margin:0;padding:0;
+  list-style-type:none;
+  float:right;
+  display:inline-block;
+}
+
+nav ul li {
+  position:relative;
+  margin:0 20px 0 0;
+  float:center; /* This should be float: left; */
+  display:inline-block;
+}
+
+li > a:after { content: ' »'; }
+
+li > a:only-child:after { content: ''; }
+
+nav ul li a {
+  padding:20px;
+  display:inline-block;
+  color:black;
+  text-decoration:none;
+}
+
+nav ul li a:hover {
+  opacity:0.5;
+}
+
+nav ul li ul {
+  display:none;
+  position:absolute;
+  left:0;
+  background:white;
+  float:left;
+  z-index: 2;
+}
+
+nav ul li ul li {
+  width:100%;
+  border-bottom:1px solid rgba(255,255,255,.3);
+}
+
+nav ul li:hover ul {
+  display:block;
+}
+
+
+#main-image {
+    top: 100px;
+    max-width: 100%;
+    height: auto;
+}
+
+.image-container {
+    /* top: 114px; */ /* Adjust or remove this line */
+    left: 0;
+    width: 100%;
+    background-color: #ffff; 
     text-align: center;
-    padding: 100px 0;
-    color: green;
 }
 
-.hero h1 {
+/*css for main text - h1*/
+.image-gallery h1 {
+    font-family: Georgia, 'Times New Roman', Times, serif;
     font-size: 36px;
-    margin-bottom: 20px;
+    color: #0f0a14; 
 }
 
-.hero p {
-    font-size: 18px;
-    margin-bottom: 30px;
+/*css for main image*/
+.image-gallery {
+    text-align: center;
+    flex: 1;
+    min-height: 100vh;
+    position: relative;
+}
+
+.text-container {
+    width: 75%;
+    margin: 0 auto;
+    text-align: center;
+    padding: 20px;
+    top: 0; /* Adjust the top value as needed to move the text up or down */
+    height: 500px;
+}
+
+/* Ensure the text is responsive and scales with different screen sizes */
+@media screen and (max-width: 768px) {
+    .text-container {
+        width: 100%;
+    }
+}
+
+hr {
+    border-top: 5px dotted #4a3640;
+    width: 40%;
+}
+
+.image-and-buttons {
+    position: relative;
+}
+.prev-button, .next-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: black;
+    border-radius: 50%;
+    border-color: white;
+    border: none;
+    font-size: 24px;
+    color: white; /* Change the color to match your design */
+    cursor: pointer;
+    z-index: 1;
+}
+
+.prev-button {
+    left: 10px;
+}
+
+.next-button {
+    right: 10px;
 }
 
 .cta-button {
@@ -71,9 +233,50 @@ header ul li a {
 }
 
 footer {
-    background-color: #333;
+    background-color: black;
     color: #fff;
     text-align: center;
     padding: 10px 0;
     font-size: 14px;
+    /* bottom: 0; */ /* Consider removing this line */
+    /* left: 0; */ /* Consider removing this line */
+    /* width: 100%; */ /* Consider removing this line */
+    /* position: fixed; */ /* Consider removing this line or adjust as needed */
+}
+
+label {
+    font-weight: bold;
+    margin-top: 15px;
+    /* margin-bottom: -15px; */ /* Consider removing or adjusting this line */
+}
+
+.product{
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#product-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 50px;
+}
+
+/* Style the button */
+button {
+    background-color: #00181f;
+    color: white; /* White text color */
+    padding: 10px 15px; /* Adjust padding as needed */
+    font-size: 16px; /* Adjust font size as needed */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Add border radius for rounded corners */
+    cursor: pointer;
+}
+
+/* Hover effect for the button */
+button:hover {
+    background-color: white;
+    color: black;
+    border-color: #51236d;
+    border: 1px solid;
 }

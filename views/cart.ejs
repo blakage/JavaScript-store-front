@@ -1,0 +1,29 @@
+<%- include('../partials/headerNavHero.ejs') %>
+
+<!-- Main Content Section -->
+<div class="text-container">
+    <h1>My Cart</h1>
+
+    <% if (cart.length > 0) { %>
+        <ul>
+            <% cart.forEach(product => { %>
+                <li>
+                    <%= product.name %> - $<%= product.price.toFixed(2) %>
+                </li>
+            <% }); %>
+        </ul>
+
+        <p>Total Price: $<%= totalPrice.toFixed(2) %></p>
+
+        <!-- Add a form for checkout or any other actions you want -->
+        <form action="/checkout" method="post">
+            <button type="submit">Checkout</button>
+        </form>
+    <% } else { %>
+        <p>Your cart is empty</p>
+    <% } %>
+
+    <hr>
+</div>
+
+<%- include('../partials/footer.ejs') %>
