@@ -40,11 +40,6 @@ app.use(function (req, res, next) {
     next();
 });
 
-// Import the cart route handler
-console.log('Loading cart routes...');
-const cartRoutes = require('./routes/cart.js');
-cartRoutes(app);
-
 // Import the dice route handler
 console.log('Loading dice routes...');
 const diceRouter = require('./routes/dice.js');
