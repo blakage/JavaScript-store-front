@@ -1,11 +1,10 @@
-const body_parser = require('body-parser'); 
 const express = require('express');
-const fs = require("fs");
-const cookieParser = require('cookie-parser');
-const sessions = require("express-session");
-
-// Express Setup:
 const app = express();
+const path = require('path');
+const fs = require('fs');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const bodyParser = require('body-parser');
 
 // Cookie Parser setup:
 app.use(cookieParser(process.env.COOKIE_PARSER_SECRET));
@@ -18,36 +17,60 @@ app.use(sessions({
     resave: false
 }));
 
-
-// MySQL Connection
-require("./connection.js");
-
 // Serve static files:
 app.use(express.static('.'));
 
+// Session Middleware:
+app.use(session({
+    secret: 'cart-session',
+    resave: false,
+    saveUninitialized: true
+}));
+
 // Allows for request.body.{...}
-app.use(body_parser.urlencoded({ extended: false }));
-app.use(body_parser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 // Utilize a template engine:
 app.set('view engine', 'ejs');
 
+const cartRoutes = require('./routes/cart.js');
+
+// Use the cartRoutes for the /cart route
+cartRoutes(app);
+
+
 // EJS Template "Globals":
 app.use(function (req, res, next) {
-    console.log(req.session.user);
     res.locals.user = req.session.user;
     next();
 });
 
+// Import the dice route handler
+console.log('Loading dice routes...');
+const diceRouter = require('./routes/dice.js');
+
+// Use the diceRouter for the /dice route
+app.use('/dice', diceRouter);
+
 // Routes
-var rPath = "./routes/"
-fs.readdirSync(rPath).forEach(function(file) {
-    var route = rPath+file;
-    require(route)(app);
-})
+var rPath = "./routes/";
+fs.readdirSync(rPath).forEach(function (file) {
+    var route = path.join(__dirname, 'routes', file);
+    try {
+        var routeHandler = require(route);
+        if (typeof routeHandler === 'function') {
+            routeHandler(app);
+            console.log(`Successfully loaded route handler for ${route}`);
+        } else {
+            console.error(`Error: ${route} does not export a function as expected.`);
+        }
+    } catch (error) {
+        console.error(`Error loading route handler for ${route}: ${error.message}`);
+    }
+});
 
 // Listen on Port 8080.
 app.listen(8080, () => {
-    console.log("Available at http://localhost:8080")
-})
-global.app = app;
+    console.log("Available at http://localhost:8080");
+});
