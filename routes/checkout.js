@@ -11,5 +11,12 @@ module.exports = function (app) {
     
         response.render("checkout", { cart, ...additionalData });
     });
+
+    app.post('/checkout', function (request, response) {
+        if (request.session.cart) {
+            request.session.cart = [];
+        }
+        response.redirect("/checkout");
+    });
     
 };
