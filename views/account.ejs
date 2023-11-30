@@ -2,7 +2,7 @@
     <script>
         function validateUsername(field) {
             // Don't do anything if we're trying to query our same username.
-            if (field.value.toLowerCase() === "<%= user.username %>") {
+            if (field.value.toLowerCase() === "<%= userInfo.username %>") {
                 document.getElementById("userValidation").classList.remove("is-invalid");
                 document.getElementById("userValidation").classList.remove("is-valid");
                 return;
@@ -56,7 +56,7 @@
                 <div class="col-md-12">
                     <label for="userValidation">Username</label>
                     <input type="text" name="username" class="form-control" id="userValidation" onkeyup="validateUsername(this)"
-                        placeholder="Username..." value="<%= user.username %>" required>
+                        placeholder="Username..." value="<%= userInfo.username %>" required>
                     <div class="invalid-feedback">
                         Sorry. That username is taken.
                     </div>
@@ -67,9 +67,9 @@
                 <label>Profile Image</label>
                 <br>
                 <!-- Construct image from the stored blob -->
-                <% if (user.image) { %>
+                <% if (userInfo.image) { %>
                 <br>
-                    <img src="/media/<%= user.image %>" class="rounded-circle" width="280", height="300">
+                    <img src="/media/<%= userInfo.image %>" class="rounded-circle" width="280", height="300">
                     <br><br>
                 <% } %>
                 <input type="file" name="image" class="form-control">

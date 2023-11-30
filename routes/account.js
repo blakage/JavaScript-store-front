@@ -42,7 +42,7 @@ async function sendResponse(response, username, message, message_style) {
         response.render("account", {
             "message": message,
             "message_style": message_style,
-            "user": result,
+            "userInfo": result,
         });
     })
 }
@@ -58,6 +58,7 @@ module.exports = function (app) {
                 message_style: "danger",
             });
         }
+
         if (session.message) {
             session.message = false;
             return await sendResponse(response,
