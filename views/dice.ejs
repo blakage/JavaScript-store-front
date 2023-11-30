@@ -10,27 +10,24 @@
 <div id="product-list">
     <!-- Display your products here -->
     <% if (products && products.length) { %>
-        <% for (let i = 0; i < products.length; i += 4) { %>
-            <div class="product-row">
-                <% for (let j = i; j < i + 4 && j < products.length; j++) { %>
-                    <div class="product" data-id="<%= products[j].id %>" data-name="<%= products[j].name %>" data-price="<%= products[j].price %>">
-                        <img src="<%= products[j].image %>" alt="<%= products[j].name %>" width="150" height="150" style="border: 1px dotted #676767;">
-                        <h2><%= products[j].name %></h2>
-                        <p><%= products[j].description %></p>
-                        <p>$<%= products[j].price.toFixed(2) %></p><br>
-                        
-                        <!-- Add to Cart Form -->
-                        <form action="/dice/add-to-cart/<%= products[j].id %>" method="POST">
-                            <button type="submit">Add to Cart</button>
-                        </form>
-                    </div>
-                <% } %>
+        <% products.forEach(product => { %>
+            <div class="product" data-id="<%= product.id %>" data-name="<%= product.name %>" data-price="<%= product.price %>">
+                <img src="<%= product.image %>" alt="<%= product.name %>" width="150" height="150" style="border: 1px dotted #676767;">
+                <h2><%= product.name %></h2>
+                <p><%= product.description %></p>
+                <p>$<%= product.price.toFixed(2) %></p><BR>
+                
+                <!-- Add to Cart Form -->
+                <!-- Add to Cart Form -->
+            <form action="/dice/add-to-cart/<%= product.id %>" method="POST">
+                <button type="submit">Add to Cart</button>
+            </form>
+
             </div>
-        <% } %>
+        <% }); %>
     <% } else { %>
         <p>No products available.</p>
     <% } %>
 </div>
-
 
 <%- include('../partials/footer.ejs') %>
