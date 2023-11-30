@@ -181,6 +181,7 @@ nav ul li:hover ul {
 }
 
 hr {
+    margin: revert;
     border-top: 5px dotted #4a3640;
     width: 40%;
 }
@@ -229,6 +230,10 @@ hr {
     padding: 20px;
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 75%;
+    margin: 0 auto;
+    margin-bottom: 25px;
+    text-align: center;
 }
 
 footer {
