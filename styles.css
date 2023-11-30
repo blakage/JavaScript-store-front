@@ -299,3 +299,9 @@ button:hover {
     background-color: #cc0000; /* Darker red on hover, adjust as needed */
     /* Add any other hover styles if desired */
 }
+
+.product-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px; /* Adjust as needed */
+}
