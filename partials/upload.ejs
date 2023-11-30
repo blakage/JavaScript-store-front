@@ -1,0 +1,89 @@
+<h2 style="text-align: center;">Posts</h2>
+
+<div style="display: flex; justify-content: center;">
+  <form id="postsInput" style="text-align: center;">
+    <input type="file" id="fileInput" style="margin-bottom: 10px; display: block;"><br>
+    <textarea id="placeholderInput" placeholder="Enter text for the image" style="width: 100%; min-height: 56px;"></textarea><br><br>
+    <button type="submit" style="margin-bottom: 5px;">Submit</button>
+  </form>
+</div>
+
+<div id="postsDisplay" style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+  <!-- Posts will be dynamically added here -->
+</div>
+
+<script>
+	const form = document.getElementById("postsInput");
+	const fileInput = document.getElementById("fileInput");
+	const imagePreviews = document.getElementById("postsDisplay");
+
+	form.addEventListener("submit", function(event) {
+	event.preventDefault();
+
+	const selectedFile = fileInput.files[0];
+	const placeholderInput = document.getElementById("placeholderInput").value;
+
+	if (!selectedFile || !placeholderInput) {
+		alert("Please select one image and enter text for the image.");
+		return;
+	}
+
+	const reader = new FileReader();
+
+	reader.onload = function(event) {
+		const img = new Image();
+		img.onload = function() {
+		const canvas = document.createElement("canvas");
+		const postContainer = document.createElement("div");
+		const textParagraph = document.createElement("p");
+		
+		let width = img.width;
+		let height = img.height;
+
+		if (width > 400) {
+			const ratio = 400 / width;
+			width *= ratio;
+			height *= ratio;
+		}
+
+		canvas.width = width;
+		canvas.height = height;
+
+		const ctx = canvas.getContext("2d");
+		ctx.drawImage(img, 0, 0, width, height);
+
+		const resizedImage = new Image();
+		resizedImage.src = canvas.toDataURL("image/png");
+
+		const imgElement = document.createElement("img");
+		imgElement.src = resizedImage.src;
+		imgElement.style.maxWidth = "100%";
+		imgElement.style.display = "lock";
+		imgElement.style.padding = "10px";
+		imgElement.style.border = "4px solid black";
+
+		textParagraph.textContent = placeholderInput;
+		textParagraph.style.textAlign = "center";
+		textParagraph.style.wordWrap = "break-word";
+		textParagraph.style.padding = "10px";
+		textParagraph.style.border = "4px solid black";
+		textParagraph.style.borderWidth = "0px 4px 4px 4px";
+
+		postContainer.classList.add("post");
+		postContainer.style.maxWidth = "400px";
+		postContainer.style.margin = "10px 0";
+		postContainer.style.background = "#CCCCCC";
+		postContainer.appendChild(imgElement);
+		postContainer.appendChild(textParagraph);
+
+		imagePreviews.appendChild(postContainer);
+
+		fileInput.value = "";
+		document.getElementById("placeholderInput").value = "";
+		};
+		img.src = event.target.result;
+	};
+
+	reader.readAsDataURL(selectedFile);
+	});
+</script>
