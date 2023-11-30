@@ -7,11 +7,11 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 
 // Cookie Parser setup:
-app.use(cookieParser(process.env.COOKIE_PARSER_SECRET));
+app.use(cookieParser("dummysecret"));
 
 // Session setup:
 app.use(session({
-    secret: process.env.SESSION_SECRET,
+    secret: "dummysecret",
     saveUninitialized: true,
     cookie: { maxAge: 86400000 },
     resave: false
@@ -34,7 +34,6 @@ app.use(bodyParser.json());
 // Utilize a template engine:
 app.set('view engine', 'ejs');
 
-
 // EJS Template "Globals":
 app.use(function (req, res, next) {
     res.locals.user = req.session.user;
@@ -44,8 +43,6 @@ app.use(function (req, res, next) {
 // Import the dice route handler
 console.log('Loading dice routes...');
 const diceRouter = require('./routes/dice.js');
-
-// Use the diceRouter for the /dice route
 app.use('/dice', diceRouter);
 
 const accessoriesRouter = require('./routes/accessories.js');

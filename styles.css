@@ -181,7 +181,6 @@ nav ul li:hover ul {
 }
 
 hr {
-    margin: revert;
     border-top: 5px dotted #4a3640;
     width: 40%;
 }
@@ -230,10 +229,6 @@ hr {
     padding: 20px;
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 75%;
-    margin: 0 auto;
-    margin-bottom: 25px;
-    text-align: center;
 }
 
 footer {
@@ -285,18 +280,63 @@ button:hover {
     border: 1px solid;
 }
 
-.delete-button {
-    background-color: #ff0000; /* Red background color, adjust as needed */
-    color: #fff; /* White text color, adjust as needed */
-    padding: 10px 15px; /* Adjust padding as needed */
-    border: none; /* Remove border */
-    border-radius: 5px; /* Add border radius for rounded corners */
-    cursor: pointer;
-    /* Add any other styles or adjustments you need */
+.dice-container {
+    display: flex;
+    flex-direction: column; /* Change to column */
+    align-items: center;
+    justify-content: center; /* Center items horizontally */
+    gap: 20px; /* Center items horizontally */
 }
 
-.delete-button:hover {
-    background-color: #cc0000; /* Darker red on hover, adjust as needed */
-    /* Add any other hover styles if desired */
+.dice-item {
+    margin-bottom: 20px; /* Adjust as needed for spacing */
+}
+.user-info-form {
+    width: 100%; /* Make the form take the full width */
 }
 
+.dice-and-form-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.dice-and-form-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.dice-and-form-container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1000px; /* Adjust the maximum width as needed */
+    margin: 0 auto; /* Center the container */
+}
+
+.dice-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; /* Adjust the gap between dice items */
+    width: 48%; /* Adjust the width as needed */
+}
+
+.user-info-form {
+    width: 48%; /* Adjust the width as needed */
+}
+
+.form-group {
+    margin-bottom: 10px; /* Adjust the margin between form groups */
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    box-sizing: border-box;
+}
