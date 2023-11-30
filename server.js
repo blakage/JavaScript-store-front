@@ -10,7 +10,7 @@ const bodyParser = require('body-parser');
 app.use(cookieParser(process.env.COOKIE_PARSER_SECRET));
 
 // Session setup:
-app.use(sessions({
+app.use(session({
     secret: process.env.SESSION_SECRET,
     saveUninitialized: true,
     cookie: { maxAge: 86400000 },
