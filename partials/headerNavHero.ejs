@@ -121,8 +121,10 @@
             <li class="dropdown">
                 <a href="account">My Account</a>
                 <ul class="dropdown-content">
-                    <li><a href="login">Login</a></li>
-                    <li><a href="create">Create Account</a></li>
+                    <% if (!user) { %>
+                        <li><a href="login">Login</a></li>
+                        <li><a href="create">Create Account</a></li>
+                    <% } %>
                     <li><a href="account">My Account</a></li>
                 </ul>
             </li>
@@ -137,6 +139,11 @@
             <li class="dropdown">
             <li><a href="contact">Contact Us</a></li>
             </li>
+            <% if (user && user[1]) { %>
+            <li class="dropdown">
+                <li><a href="admin">Admin</a></li>
+            </li>
+            <% } %>
         </ul>
     </nav>
 
