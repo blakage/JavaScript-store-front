@@ -7,11 +7,11 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 
 // Cookie Parser setup:
-app.use(cookieParser(process.env.COOKIE_PARSER_SECRET));
+app.use(cookieParser({"dummysecret"}T));
 
 // Session setup:
 app.use(session({
-    secret: process.env.SESSION_SECRET,
+    secret: "dummysecret",
     saveUninitialized: true,
     cookie: { maxAge: 86400000 },
     resave: false
