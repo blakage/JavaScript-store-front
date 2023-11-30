@@ -77,7 +77,6 @@ header ul li a {
     cursor: pointer;
 }
 
-body{ margin:0; font-family:'georgia'}
 
 nav {
   margin:0 auto;
@@ -171,7 +170,6 @@ nav ul li:hover ul {
     text-align: center;
     padding: 20px;
     top: 0; /* Adjust the top value as needed to move the text up or down */
-    height: 500px;
 }
 
 /* Ensure the text is responsive and scales with different screen sizes */
@@ -238,10 +236,9 @@ footer {
     text-align: center;
     padding: 10px 0;
     font-size: 14px;
-    /* bottom: 0; */ /* Consider removing this line */
-    /* left: 0; */ /* Consider removing this line */
-    /* width: 100%; */ /* Consider removing this line */
-    /* position: fixed; */ /* Consider removing this line or adjust as needed */
+    bottom: 0px; /* Consider removing this line */
+    left: 0; /* Consider removing this line */
+    width: 100%; /* Consider removing this line */
 }
 
 label {
