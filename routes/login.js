@@ -28,6 +28,7 @@ module.exports = function (app) {
             session.username = username;
             session.isAdmin = result.isAdmin;
             session.user = [username, result.isAdmin, result.image];
+            session.message = true;
             return response.redirect("account")
         } else {
             return response.render("login", {

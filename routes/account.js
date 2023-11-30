@@ -58,9 +58,16 @@ module.exports = function (app) {
                 message_style: "danger",
             });
         }
+        if (session.message) {
+            session.message = false;
+            return await sendResponse(response,
+                username,
+                "Welcome back, " + username + "!",
+                "success");
+        }
 
         // Wrap in getAccountInfo:
-        await sendResponse(response, username, null, null);
+        await sendResponse(response, username,null, null);
     });
 
     app.get("/user/validate", async function(request, response) {
