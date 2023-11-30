@@ -279,3 +279,64 @@ button:hover {
     border-color: #51236d;
     border: 1px solid;
 }
+
+.dice-container {
+    display: flex;
+    flex-direction: column; /* Change to column */
+    align-items: center;
+    justify-content: center; /* Center items horizontally */
+    gap: 20px; /* Center items horizontally */
+}
+
+.dice-item {
+    margin-bottom: 20px; /* Adjust as needed for spacing */
+}
+.user-info-form {
+    width: 100%; /* Make the form take the full width */
+}
+
+.dice-and-form-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.dice-and-form-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.dice-and-form-container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1000px; /* Adjust the maximum width as needed */
+    margin: 0 auto; /* Center the container */
+}
+
+.dice-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; /* Adjust the gap between dice items */
+    width: 48%; /* Adjust the width as needed */
+}
+
+.user-info-form {
+    width: 48%; /* Adjust the width as needed */
+}
+
+.form-group {
+    margin-bottom: 10px; /* Adjust the margin between form groups */
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    box-sizing: border-box;
+}

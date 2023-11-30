@@ -1,4 +1,6 @@
-// cart.js
+const express = require('express');
+const router = express.Router();
+
 module.exports = function (app) {
     console.log('Setting up /cart route...');
 

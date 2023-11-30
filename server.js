@@ -30,12 +30,6 @@ app.use(bodyParser.json());
 // Utilize a template engine:
 app.set('view engine', 'ejs');
 
-const cartRoutes = require('./routes/cart.js');
-
-// Use the cartRoutes for the /cart route
-cartRoutes(app);
-
-
 // EJS Template "Globals":
 userManager = require("./userManager.js");
 app.use(function (req, res, next) {
@@ -48,11 +42,14 @@ app.use(function (req, res, next) {
     next();
 });
 
+// Import the cart route handler
+console.log('Loading cart routes...');
+const cartRoutes = require('./routes/cart.js');
+cartRoutes(app);
+
 // Import the dice route handler
 console.log('Loading dice routes...');
 const diceRouter = require('./routes/dice.js');
-
-// Use the diceRouter for the /dice route
 app.use('/dice', diceRouter);
 
 // Routes

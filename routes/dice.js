@@ -50,13 +50,6 @@ router.get('/', function (request, response) {
     response.render('dice', { products });
 });
 
-// Sort products by price
-router.get('/sort-by-price', function (request, response) {
-    const sortedProducts = [...products].sort((a, b) => a.price - b.price);
-    response.render('dice', { products: sortedProducts });
-});
-
-
 // Add item to the cart
 router.post('/add-to-cart/:productId', function (request, response) {
     const productId = parseInt(request.params.productId, 10);
@@ -77,5 +70,11 @@ router.post('/add-to-cart/:productId', function (request, response) {
     }
 });
 
-module.exports = router;
+// Checkout route
+router.post('/checkout', function (request, response) {
+    console.log('Checkout POST request received');
+    const cart = request.session.cart || [];
+    response.render('checkout', { cart });
+});
 
+module.exports = router;
