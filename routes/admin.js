@@ -2,7 +2,7 @@ const connection = require('../connection');
 const sanitizer = require("sanitize")();
 
 function getTable(callback) {
-    var query = connection.query("SELECT * FROM Accounts", function (error, result) {
+    var query = connection.query("SELECT * FROM Users", function (error, result) {
         if (error) {
             callback(error, []);
         } else {
@@ -35,7 +35,7 @@ module.exports = function (app) {
         action = sanitizer.value(action, 'str');
 
         // Query from username to begin with:
-        var query = connection.query("SELECT * FROM Accounts WHERE username = " + connection.escape(username), function (error, result) {
+        var query = connection.query("SELECT * FROM Users WHERE username = " + connection.escape(username), function (error, result) {
             if (result.length > 0) {
                 // User is result[0], check action:
                 if (action === "action_admin") {
@@ -50,7 +50,7 @@ module.exports = function (app) {
                         })
                     }
                     // Toggle admin:
-                    connection.query("UPDATE Accounts SET isAdmin=" + connection.escape(!result[0].isAdmin) + " WHERE username=" + connection.escape(username),
+                    connection.query("UPDATE Users SET isAdmin=" + connection.escape(!result[0].isAdmin) + " WHERE username=" + connection.escape(username),
                     (error, response) => { console.log(error); })
                     getTable(function (error, result) {
                         return response.render("admin", {
@@ -82,7 +82,7 @@ module.exports = function (app) {
                         });
                     }
                     // Delete:
-                    connection.query("DELETE FROM Accounts WHERE username=" + connection.escape(username),
+                    connection.query("DELETE FROM Users WHERE username=" + connection.escape(username),
                         (error, response) => { console.log(error); })
                         getTable(function(error, result) {
                             return response.render("admin", {
