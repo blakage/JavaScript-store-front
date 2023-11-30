@@ -300,8 +300,3 @@ button:hover {
     /* Add any other hover styles if desired */
 }
 
-.product-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px; /* Adjust as needed */
-}
