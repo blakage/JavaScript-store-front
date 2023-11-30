@@ -71,8 +71,10 @@
                     <% if (!user) { %>
                         <li><a href="login">Login</a></li>
                         <li><a href="create">Create Account</a></li>
+                    <% } else { %>
+                        <li><a href="account">My Account</a></li>
+                        <li><a href="logout">Logout</a></li>
                     <% } %>
-                    <li><a href="account">My Account</a></li>
                 </ul>
             </li>
             <li class="dropdown">
