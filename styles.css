@@ -250,7 +250,7 @@ label {
 }
 
 .product{
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     text-align: center;
 }
 
@@ -258,7 +258,7 @@ label {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 50px;
+    gap: 100px;
 }
 
 /* Style the button */
