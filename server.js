@@ -7,7 +7,7 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 
 // Cookie Parser setup:
-app.use(cookieParser({"dummysecret"}));
+app.use(cookieParser("dummysecret"));
 
 // Session setup:
 app.use(session({
