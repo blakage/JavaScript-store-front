@@ -15,4 +15,20 @@ module.exports = function (app) {
 
         response.render("cart", { cart, totalPrice });
     });
+
+    app.post('/delete-product', function (request, response) {
+        const { index } = request.body;
+        console.log('no worky');
+        // Get the cart from the session
+        const cart = request.session.cart || [];
+
+        // Remove the product at the specified index
+        if (index !== undefined && index >= 0 && index < cart.length) {
+            cart.splice(index, 1);
+            request.session.cart = cart;
+        }
+
+        // Redirect back to the cart page
+        response.redirect('/cart');
+    });
 };

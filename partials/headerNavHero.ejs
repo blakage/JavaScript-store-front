@@ -45,7 +45,7 @@
 </head>
 <body>
 
-<!-- Header Section -->
+   <!-- Header Section -->
 <header>
     <!-- Search Bar -->
     <div class="search-bar">
@@ -63,8 +63,6 @@
                 { name: 'Home', url: '/' },
                 { name: 'Shop - Dice', url: 'dice' },
                 { name: 'Shop - Accessories', url: 'accessories' },
-                { name: 'My Account - Login', url: 'login' },
-                { name: 'My Account - Create Account', url: 'create' },
                 { name: 'My Account - My Account', url: 'account' },
                 { name: 'Cart - My Cart', url: 'cart' },
                 { name: 'Cart - Checkout', url: 'checkout' },
@@ -98,6 +96,15 @@
     </script>
 </header>
 
+<!-- Dropdown Menu/Links -->
+<nav>
+    <ul>
+        <!-- Your existing navigation links -->
+        <!-- ... -->
+    </ul>
+</nav>
+
+
     <!-- Dropdown Menu/Links -->
     <nav>
         <ul>
@@ -112,9 +119,13 @@
             <li class="dropdown">
                 <a href="account">My Account</a>
                 <ul class="dropdown-content">
-                    <li><a href="login">Login</a></li>
-                    <li><a href="create">Create Account</a></li>
-                    <li><a href="account">My Account</a></li>
+                    <% if (!user) { %>
+                        <li><a href="login">Login</a></li>
+                        <li><a href="create">Create Account</a></li>
+                    <% } else { %>
+                        <li><a href="account">My Account</a></li>
+                        <li><a href="logout">Logout</a></li>
+                    <% } %>
                 </ul>
             </li>
             <li class="dropdown">
@@ -128,6 +139,11 @@
             <li class="dropdown">
             <li><a href="contact">Contact Us</a></li>
             </li>
+            <% if (user && user[1]) { %>
+            <li class="dropdown">
+                <li><a href="admin">Admin</a></li>
+            </li>
+            <% } %>
         </ul>
     </nav>
 

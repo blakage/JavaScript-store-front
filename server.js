@@ -7,11 +7,15 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 
 // Cookie Parser setup:
-app.use(cookieParser(process.env.COOKIE_PARSER_SECRET));
+app.use(cookieParser("dummysecret"));
 
-// User Management:
-SESSION_MAP = {};
-app.set("sessionMap", SESSION_MAP);
+// Session setup:
+app.use(session({
+    secret: "dummysecret",
+    saveUninitialized: true,
+    cookie: { maxAge: 86400000 },
+    resave: false
+}));
 
 // Serve static files:
 app.use(express.static('.'));
@@ -31,14 +35,8 @@ app.use(bodyParser.json());
 app.set('view engine', 'ejs');
 
 // EJS Template "Globals":
-userManager = require("./userManager.js");
 app.use(function (req, res, next) {
-    const sessionId = req.cookies.sessionId;
-    if (sessionId) {
-        res.locals.isAuthenticated = userManager.getUsernameFromSessionID(sessionId, SESSION_MAP);
-    } else {
-        res.locals.isAuthenticated = null; // or handle the case when sessionId is undefined/null
-    }
+    res.locals.user = req.session.user;
     next();
 });
 
@@ -51,6 +49,14 @@ cartRoutes(app);
 console.log('Loading dice routes...');
 const diceRouter = require('./routes/dice.js');
 app.use('/dice', diceRouter);
+
+const accessoriesRouter = require('./routes/accessories.js');
+app.use('/accessories', accessoriesRouter);
+
+const cartRoutes = require('./routes/cart.js');
+
+// Use the cartRoutes for the /cart route
+cartRoutes(app);
 
 // Routes
 var rPath = "./routes/";
