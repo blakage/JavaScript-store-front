@@ -1,6 +1,7 @@
 const sanitizer = require("sanitize")();
 const fs = require('fs');
 const path = require('path')
+const bcrypt = require("bcrypt");
 
 const sequelize = require('../sequelize_conn');
 const User = require("../models/User.model");
@@ -130,4 +131,50 @@ module.exports = function (app) {
             return await sendResponse(response, username, responseMessage, "success");
         }
     })
+
+    // Update Passord
+    app.post("/password_change", async function(request, response) {
+        var {curr_password, new_password, conf_new_password} = request.body;
+        curr_password = sanitizer.value(curr_password, 'str');
+        new_password = sanitizer.value(new_password, 'str');
+        conf_new_password = sanitizer.value(conf_new_password, 'str');
+
+        // Get user:
+        const user = await User.findOne({"where": {username: request.session.username}});
+
+        // Check if curr_password is the same as what we have:
+        const pass_check = bcrypt.compareSync(curr_password, user.password);
+        if (!pass_check) {
+            return await sendResponse(
+                response, user.username,
+                "Sorry, your old password does not match.",
+                "danger");
+        }
+
+        // Compare new and conf_new:
+        if (new_password !== conf_new_password) {
+            // Passwords don't match.
+            return await sendResponse(
+                response, user.username,
+                "Sorry, your new password does not match the confirmation.",
+                "danger");
+        }
+
+        // Hash password:
+        const hashed_password = bcrypt.hashSync(new_password, 13);
+        
+        // Update:
+        await User.update({
+            password: hashed_password,
+        }, {
+            where: {
+                username: request.session.username,
+            }
+        });
+        return await sendResponse(
+            response, user.username,
+            "Successfully changed your password.",
+            "success"
+        );
+    });
 }

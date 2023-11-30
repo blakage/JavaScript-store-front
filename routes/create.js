@@ -31,7 +31,6 @@ module.exports = function (app) {
         const hashed_password = bcrypt.hashSync(password, 13);
 
         // Insert:
-        console.log(hashed_password);
         await User.create({
             username : username,
             password: hashed_password,
