@@ -30,6 +30,12 @@ app.use(bodyParser.json());
 // Utilize a template engine:
 app.set('view engine', 'ejs');
 
+const cartRoutes = require('./routes/cart.js');
+
+// Use the cartRoutes for the /cart route
+cartRoutes(app);
+
+
 // EJS Template "Globals":
 userManager = require("./userManager.js");
 app.use(function (req, res, next) {
@@ -43,6 +49,7 @@ app.use(function (req, res, next) {
 });
 
 // Import the dice route handler
+console.log('Loading dice routes...');
 const diceRouter = require('./routes/dice.js');
 
 // Use the diceRouter for the /dice route
@@ -63,12 +70,6 @@ fs.readdirSync(rPath).forEach(function (file) {
     } catch (error) {
         console.error(`Error loading route handler for ${route}: ${error.message}`);
     }
-});
-
-app.get('/dice/sort-by-price', function (request, response) {
-    // Sort the products array by price
-    const sortedProducts = products.slice().sort((a, b) => a.price - b.price);
-    response.render('dice', { products: sortedProducts });
 });
 
 // Listen on Port 8080.
